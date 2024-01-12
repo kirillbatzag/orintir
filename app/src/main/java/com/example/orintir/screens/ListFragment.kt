@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.example.orintir.R
 class ListFragment : Fragment() {
 
+
+    //Здесь будет список созданых ориентировок, сделаем как базу даннных , что бы можно было при нажатии закрыть ориентировку
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

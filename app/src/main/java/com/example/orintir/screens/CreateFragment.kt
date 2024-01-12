@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.orintir.R
 
-class CreateFragment : Fragment() {
 
+
+//Фрагмент для ввода данных т.е создание ориентировки
+class CreateFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

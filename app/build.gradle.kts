@@ -50,7 +50,9 @@ dependencies {
     val lifecycle_version = ("2.7.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    
+
+    //Picasso для работы с фото
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
