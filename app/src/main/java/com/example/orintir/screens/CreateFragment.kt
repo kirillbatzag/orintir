@@ -23,7 +23,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.lang.Exception
 
-
+//
 //Фрагмент для ввода данных т.е создание ориентировки
 class CreateFragment : Fragment() {
 
