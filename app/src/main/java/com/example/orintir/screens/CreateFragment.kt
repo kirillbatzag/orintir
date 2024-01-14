@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.graphics.createBitmap
 import com.example.orintir.R
 import com.example.orintir.databinding.FragmentCreateBinding
@@ -43,6 +44,7 @@ class CreateFragment : Fragment() {
 
         binding.button.setOnClickListener{
             applyText()
+            Toast.makeText(getActivity(), "Изображение сохранени", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -65,6 +67,7 @@ class CreateFragment : Fragment() {
                 }
             })
     }
+
     //Рисовка
     private fun createBitmapFromView(view: View, text: String):Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -73,7 +76,7 @@ class CreateFragment : Fragment() {
 
         val paint = android.graphics.Paint()
         paint.color = Color.BLACK
-        paint.textSize = 40f
+        paint.textSize = 20f
 
         val x = 5f
         val y = (view.height / 2).toFloat()
