@@ -52,7 +52,7 @@ class CreateFragment : Fragment() {
     private fun applyText(){
         val text = binding.editTextText.text.toString()
 
-        // Загрузка изображения с помощью Picasso
+        //Загрузка изображения с помощью Picasso
         Picasso.get()
             .load(R.drawable.fewf)
             .into(imageView, object : com.squareup.picasso.Callback{
