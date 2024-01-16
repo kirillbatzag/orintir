@@ -51,13 +51,18 @@ class CreateFragment : Fragment() {
 
     private fun applyText(){
         val text = binding.editTextText.text.toString()
+        val text2 = binding.editTextText2.text.toString()
+        val text3 = binding.editTextDate.text.toString()
+        val text4 = binding.editTextText5.text.toString()
+        val text5 = binding.editTextText6.text.toString()
+        val text6 = binding.editTextText7.text.toString()
 
         //Загрузка изображения с помощью Picasso
         Picasso.get()
             .load(R.drawable.fewf)
             .into(imageView, object : com.squareup.picasso.Callback{
                 override fun onSuccess() {
-                    val bitmap = createBitmapFromView(imageView, text)
+                    val bitmap = createBitmapFromView(imageView, text, text2, text3, text4, text5, text6)
 
                     saveImageToGallery(bitmap)
                 }
@@ -69,19 +74,73 @@ class CreateFragment : Fragment() {
     }
 
     //Рисовка
-    private fun createBitmapFromView(view: View, text: String):Bitmap {
+    private fun createBitmapFromView(view: View,
+                                     text: String,
+                                     text2: String,
+                                     text3: String,
+                                     text4: String,
+                                     text5: String,
+                                     text6: String
+    ):Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
 
+        // Фио
         val paint = android.graphics.Paint()
-        paint.color = Color.BLACK
-        paint.textSize = 20f
-
-        val x = 5f
-        val y = (view.height / 2).toFloat()
-
+        paint.color = Color.RED
+        paint.textSize = 15f
+        val x = 50f
+        val y = 40f
         canvas.drawText(text, x ,y, paint)
+
+        //Город
+        val paint2 = android.graphics.Paint()
+        paint2.color = Color.BLACK
+        paint2.textSize = 10f
+        val x2 = 50f
+        val y2 = 60f
+        canvas.drawText(text2, x2,  y2, paint2)
+
+        // Дата рождения
+        val paint3 = android.graphics.Paint()
+        paint3.color = Color.BLACK
+        paint3.textSize = 10f
+        val x3 = 120f
+        val y3 = 60f
+        canvas.drawText("$text3 г.р.", x3,  y3, paint3)
+
+        // При каких осбст.
+        val paintObs = android.graphics.Paint()
+        paintObs.color = Color.RED
+        paintObs.textSize = 10f
+        val xO = 50f
+        val yO = 80f
+        canvas.drawText("При каких обстоятельствах пропал(а): ", xO,  yO, paintObs)
+
+        // Обстоятельства
+        val paint4 = android.graphics.Paint()
+        paint4.color = Color.BLACK
+        paint4.textSize = 10f
+        val x4 = 50f
+        val y4 = 100f
+        canvas.drawText(text4, x4,  y4, paint4)
+
+        //Приметы
+        val paint5 = android.graphics.Paint()
+        paint4.color = Color.BLACK
+        paint4.textSize = 10f
+        val x5 = 50f
+        val y5 = 100f
+        canvas.drawText(text5, x5,  y5, paint5)
+
+        //Одежда
+        val paint6 = android.graphics.Paint()
+        paint4.color = Color.BLACK
+        paint4.textSize = 10f
+        val x6 = 50f
+        val y6 = 120f
+        canvas.drawText(text6, x6,  y6, paint6)
 
         return bitmap
     }
