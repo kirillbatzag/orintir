@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.cfg.pseudocode.and
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -53,6 +55,11 @@ dependencies {
 
     //Picasso для работы с фото
     implementation ("com.squareup.picasso:picasso:2.71828")
+
+    //Room для бд
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
