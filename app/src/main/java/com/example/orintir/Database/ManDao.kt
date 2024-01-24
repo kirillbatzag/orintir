@@ -11,7 +11,7 @@ import androidx.room.Query
 interface ManDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMan(manModel: ManModel)
+    fun insertMan(manModel: ManModel)
 
     @Query("Select* from people")
     fun getAllPeople(): LiveData<List<ManModel>>

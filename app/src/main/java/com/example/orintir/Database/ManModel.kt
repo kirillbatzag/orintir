@@ -2,6 +2,7 @@ package com.example.orintir.Database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "people")
 data class ManModel(
@@ -9,7 +10,7 @@ data class ManModel(
     val id:Long,
     val name: String,
     val city: String,
-    val years: Int,
+    val years: String,
     val obst: String,
     val sings: String,
     val cloth: String,

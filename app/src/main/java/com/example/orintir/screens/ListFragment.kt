@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.asLiveData
+import com.example.orintir.Database.ManModel
+import com.example.orintir.MainActivity
 import com.example.orintir.R
 class ListFragment : Fragment() {
 
@@ -15,6 +19,13 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        MainActivity.db.ManDao.getAllPeople().observe(this)
+        {it.forEach {val text = it.name
+            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show()  }
+
+        }
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
