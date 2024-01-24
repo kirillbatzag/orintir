@@ -44,6 +44,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.room.common)
     //Navigation
     val nav_version = ("2.7.6")
     implementation ("androidx.navigation:navigation-fragment:$nav_version")
@@ -62,6 +63,9 @@ dependencies {
 
     kapt("androidx.room:room-compiler:2.6.1")
     implementation ("androidx.room:room-ktx:2.6.1")
+
+    //Для имплементации Room
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
 
 
     implementation(libs.androidx.core.ktx)
