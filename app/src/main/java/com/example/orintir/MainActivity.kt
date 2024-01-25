@@ -17,6 +17,7 @@ import com.example.orintir.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    //создание объекта бд
     companion object{
          lateinit var db: ManDatabase
     }
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        //инициализация бд
          db = Room.databaseBuilder(
             applicationContext,
             ManDatabase::class.java, "people"

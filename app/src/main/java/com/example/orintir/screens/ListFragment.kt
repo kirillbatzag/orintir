@@ -19,13 +19,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        MainActivity.db.ManDao.getAllPeople().observe(this)
-        {it.forEach {val text = it.name
-            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show()  }
-
-        }
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list, container, false)
     }

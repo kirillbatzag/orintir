@@ -62,6 +62,7 @@ class CreateFragment : Fragment() {
 
     }
 
+    //процедура создает запись в бд
     private fun abbDB(){
 
         val text = binding.editTextText.text.toString()
@@ -86,7 +87,7 @@ class CreateFragment : Fragment() {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
         val image = stream.toByteArray()
-
+        //заполнение объекта и внесение его в бд
         val Man = ManModel(0, text, text2, text3, text4,text5, text6, image)
         Thread{
             MainActivity.db.ManDao.insertMan(Man)
