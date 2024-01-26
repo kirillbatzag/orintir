@@ -8,19 +8,37 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
+import com.example.orintir.adapter.MenAdapter
+import com.example.orintir.databinding.FragmentListBinding
+
 class ListFragment : Fragment() {
 
+    private lateinit var binding: FragmentListBinding
+    private lateinit var menAdapter: MenAdapter
 
-    //Здесь будет список созданых ориентировок, сделаем как базу даннных , что бы можно было при нажатии закрыть ориентировку
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        binding = FragmentListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        menAdapter = MenAdapter(emptyList()) // Передайте пустой список, его можно обновить позже
+
+        binding.rvListMen.adapter = menAdapter
+        binding.rvListMen.layoutManager = LinearLayoutManager(requireContext())
+
+        // Получите LiveData из базы данных и наблюдайте за изменениями
+        MainActivity.db.ManDao.getAllPeople().observe(viewLifecycleOwner, { people ->
+            menAdapter.setData(people)
+        })
+    }
 }

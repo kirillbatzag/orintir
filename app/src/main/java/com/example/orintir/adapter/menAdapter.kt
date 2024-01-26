@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.orintir.Database.ManModel
 import com.example.orintir.R
 
-class MenAdapter(private val dataList: List<ManModel>) :
+class MenAdapter(private var dataList: List<ManModel>) :
     RecyclerView.Adapter<MenAdapter.MenViewHolder>() {
 
     class MenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,5 +34,10 @@ class MenAdapter(private val dataList: List<ManModel>) :
 
     override fun getItemCount(): Int {
         return dataList.size
+    }
+
+    fun setData(newData: List<ManModel>) {
+        dataList = newData
+        notifyDataSetChanged()
     }
 }

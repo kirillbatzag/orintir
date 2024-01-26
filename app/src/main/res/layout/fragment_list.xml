@@ -8,6 +8,7 @@
     tools:context=".screens.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_men"
         android:layout_width="391dp"
         android:layout_height="805dp"
         app:layout_constraintBottom_toBottomOf="parent"
