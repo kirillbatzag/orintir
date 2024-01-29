@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.orintir.Database.ManDatabase
 import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
@@ -19,6 +20,7 @@ class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var menAdapter: MenAdapter
+    private var dataList: List<ManModel> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,14 +33,25 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        menAdapter = MenAdapter(emptyList()) // Передайте пустой список, его можно обновить позже
+        menAdapter = MenAdapter(dataList, object : MenAdapter.OnDeleteClickListener {
+            override fun onDeleteClick(manModel: ManModel) {
+                deleteManFromDatabase(manModel)
+            }
+        })
 
         binding.rvListMen.adapter = menAdapter
         binding.rvListMen.layoutManager = LinearLayoutManager(requireContext())
 
         // Получите LiveData из базы данных и наблюдайте за изменениями
         MainActivity.db.ManDao.getAllPeople().observe(viewLifecycleOwner, { people ->
-            menAdapter.setData(people)
+            dataList = people
+            menAdapter.setData(dataList)
         })
+    }
+
+    private fun deleteManFromDatabase(manModel: ManModel){
+        Thread {
+            MainActivity.db.ManDao.deleteMan(manModel)
+        }.start()
     }
 }
