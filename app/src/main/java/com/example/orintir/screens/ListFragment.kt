@@ -16,7 +16,7 @@ import com.example.orintir.R
 import com.example.orintir.adapter.MenAdapter
 import com.example.orintir.databinding.FragmentListBinding
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), MenAdapter.OnPersonStatusChangeListener {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var menAdapter: MenAdapter
@@ -33,11 +33,15 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        menAdapter = MenAdapter(dataList, object : MenAdapter.OnDeleteClickListener {
-            override fun onDeleteClick(manModel: ManModel) {
-                deleteManFromDatabase(manModel)
-            }
-        })
+        menAdapter = MenAdapter(
+            dataList,
+            object : MenAdapter.OnDeleteClickListener {
+                override fun onDeleteClick(manModel: ManModel) {
+                    deleteManFromDatabase(manModel)
+                }
+            },
+            this // передайте текущий фрагмент в качестве OnPersonStatusChangeListener
+        )
 
         binding.rvListMen.adapter = menAdapter
         binding.rvListMen.layoutManager = LinearLayoutManager(requireContext())
@@ -53,5 +57,16 @@ class ListFragment : Fragment() {
         Thread {
             MainActivity.db.ManDao.deleteMan(manModel)
         }.start()
+    }
+
+    override fun onPersonStatusChange(manModel: ManModel, isFound: Boolean) {
+        // Обработка изменения статуса человека
+        if (isFound) {
+            Toast.makeText(requireContext(), "Человек найден", Toast.LENGTH_SHORT).show()
+            // Установите зеленый цвет и текст "Открыто" для manModel
+        } else {
+            Toast.makeText(requireContext(), "Человек найден", Toast.LENGTH_SHORT).show()
+            // Установите красный цвет и текст "Закрыто" для manModel
+        }
     }
 }

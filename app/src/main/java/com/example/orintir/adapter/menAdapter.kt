@@ -1,5 +1,7 @@
 package com.example.orintir.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -13,17 +15,23 @@ import com.example.orintir.R
 
 class MenAdapter(
     private var dataList: List<ManModel>,
-    private val onDeleteClickListener: OnDeleteClickListener
+    private val onDeleteClickListener: OnDeleteClickListener,
+    private val onPersonStatusChangeListener: OnPersonStatusChangeListener
 ) : RecyclerView.Adapter<MenAdapter.MenViewHolder>() {
 
     interface OnDeleteClickListener {
         fun onDeleteClick(manModel: ManModel)
     }
 
+    interface OnPersonStatusChangeListener {
+        fun onPersonStatusChange(manModel: ManModel, isFound: Boolean)
+    }
+
     class MenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photoImageView: ImageView = itemView.findViewById(R.id.photo_men)
         val nameTextView: TextView = itemView.findViewById(R.id.name_text)
         val trashView: ImageView = itemView.findViewById(R.id.trash)
+        val statusView: TextView = itemView.findViewById(R.id.status)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenViewHolder {
@@ -42,6 +50,10 @@ class MenAdapter(
             trashView.setOnClickListener{
                 onDeleteClickListener.onDeleteClick(currentItem)
             }
+
+            statusView.setOnClickListener{
+                showStatusDialog(currentItem, itemView.context)
+            }
         }
     }
 
@@ -53,4 +65,18 @@ class MenAdapter(
         dataList = newData
         notifyDataSetChanged()
     }
+
+    private fun showStatusDialog(manModel: ManModel, context: Context){
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Выберите статус")
+
+        val options = arrayOf("Найден жив","Найден мертв")
+
+        builder.setItems(options){_, which ->
+            val isFound = which == 0
+            onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
+        }
+        builder.show()
+    }
+
 }
