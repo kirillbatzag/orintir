@@ -67,6 +67,8 @@ class MenAdapter(
         notifyDataSetChanged()
     }
 
+    // Обновление статуса (Его пока нет)
+
     private fun showStatusDialog(manModel: ManModel, context: Context){
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Выберите статус")
@@ -76,16 +78,17 @@ class MenAdapter(
         builder.setItems(options) { _, which ->
             val isFound = which == 0
 
-            builder.setItems(options) { _, which ->
-                val isFound = which == 0
-
-                val statusText = if (isFound) {
-                    "Найден жив"
-                } else {
-                    "Найден мертв"
-                }
+            val statusText = if (isFound) {
+                "Найден жив"
+            } else {
+                "Найден мертв"
             }
+
+            savePhotoAndShowStatus(manModel.imageData, statusText)
+
+            onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
         }
+
         builder.show()
     }
 }
