@@ -63,10 +63,10 @@ class ListFragment : Fragment(), MenAdapter.OnPersonStatusChangeListener {
         // Обработка изменения статуса человека
         if (isFound) {
             Toast.makeText(requireContext(), "Человек найден", Toast.LENGTH_SHORT).show()
-            // Установите зеленый цвет и текст "Открыто" для manModel
+
         } else {
             Toast.makeText(requireContext(), "Человек найден", Toast.LENGTH_SHORT).show()
-            // Установите красный цвет и текст "Закрыто" для manModel
+
         }
     }
 }

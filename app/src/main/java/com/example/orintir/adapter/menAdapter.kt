@@ -53,6 +53,7 @@ class MenAdapter(
 
             statusView.setOnClickListener{
                 showStatusDialog(currentItem, itemView.context)
+
             }
         }
     }
@@ -72,11 +73,25 @@ class MenAdapter(
 
         val options = arrayOf("Найден жив","Найден мертв")
 
-        builder.setItems(options){_, which ->
+        builder.setItems(options) { _, which ->
             val isFound = which == 0
-            onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
+
+            builder.setItems(options) { _, which ->
+                val isFound = which == 0
+
+                val statusText = if (isFound) {
+                    "Найден жив"
+                } else {
+                    "Найден мертв"
+                }
+            }
         }
         builder.show()
     }
-
 }
+    private fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String) {
+        // Здесь вы должны реализовать логику сохранения фото и отображения статуса
+        // Например, сохранить фото в базе данных и обновить статус в RecyclerView
+        // Также, вы можете использовать onPersonStatusChangeListener.onPersonStatusChange,
+        // чтобы уведомить остальные части кода о изменении статуса.
+    }
