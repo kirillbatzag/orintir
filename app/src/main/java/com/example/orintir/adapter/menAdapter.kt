@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.renderscript.RenderScript
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orintir.Database.ManModel
+import com.example.orintir.MainActivity
 import com.example.orintir.R
 
 class MenAdapter(
@@ -43,6 +46,8 @@ class MenAdapter(
         val currentItem = dataList[position]
         with(holder) {
             nameTextView.text = currentItem.name
+            if (currentItem.status){statusView.text="Закрыта"
+            statusView.setTextColor(Color.parseColor("#FF0000"))}
 
             val bitmap = BitmapFactory.decodeByteArray(currentItem.imageData, 0, currentItem.imageData.size)
             photoImageView.setImageBitmap(bitmap)
@@ -84,8 +89,12 @@ class MenAdapter(
                 "Найден мертв"
             }
 
-            savePhotoAndShowStatus(manModel.imageData, statusText)
+            manModel.status = true
 
+            savePhotoAndShowStatus(manModel.imageData, statusText)
+            Thread{
+                MainActivity.db.ManDao.insertMan(manModel)
+            }.start()
             onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
         }
 
@@ -93,6 +102,8 @@ class MenAdapter(
     }
 }
     private fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String) {
+
+
         // Здесь вы должны реализовать логику сохранения фото и отображения статуса
         // Например, сохранить фото в базе данных и обновить статус в RecyclerView
         // Также, вы можете использовать onPersonStatusChangeListener.onPersonStatusChange,

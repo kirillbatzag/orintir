@@ -14,6 +14,7 @@ data class ManModel(
     val obst: String,
     val sings: String,
     val cloth: String,
-    val imageData: ByteArray
+    var imageData: ByteArray,
+    var status: Boolean
 )
 

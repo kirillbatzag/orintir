@@ -88,7 +88,7 @@ class CreateFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
         val image = stream.toByteArray()
         //заполнение объекта и внесение его в бд
-        val Man = ManModel(0, text, text2, text3, text4,text5, text6, image)
+        val Man = ManModel(0, text, text2, text3, text4,text5, text6, image, false)
         Thread{
             MainActivity.db.ManDao.insertMan(Man)
         }.start()
@@ -197,6 +197,7 @@ class CreateFragment : Fragment() {
         val x3 = 255f
         val y3 = 90f
         canvas.drawText("$text3 г.р.", x3,  y3, paint3)
+
 
         // При каких осбст.
         val paintObs = android.graphics.Paint()

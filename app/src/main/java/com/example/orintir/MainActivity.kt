@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
          db = Room.databaseBuilder(
             applicationContext,
             ManDatabase::class.java, "people"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

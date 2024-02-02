@@ -7,7 +7,7 @@ import androidx.room.Room
 
 @Database(
     entities = [ManModel::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
