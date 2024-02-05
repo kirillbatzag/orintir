@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
-import android.renderscript.RenderScript
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
+import java.io.ByteArrayOutputStream
 
 class MenAdapter(
     private var dataList: List<ManModel>,
@@ -47,7 +48,7 @@ class MenAdapter(
         with(holder) {
             nameTextView.text = currentItem.name
             if (currentItem.status){statusView.text="Закрыта"
-            statusView.setTextColor(Color.parseColor("#FF0000"))}
+            statusView.setTextColor(Color.parseColor("#FF0000")) }
 
             val bitmap = BitmapFactory.decodeByteArray(currentItem.imageData, 0, currentItem.imageData.size)
             photoImageView.setImageBitmap(bitmap)
@@ -57,7 +58,7 @@ class MenAdapter(
             }
 
             statusView.setOnClickListener{
-                showStatusDialog(currentItem, itemView.context)
+                showStatusDialog(currentItem, itemView.context,photoImageView)
 
             }
         }
@@ -74,7 +75,7 @@ class MenAdapter(
 
     // Обновление статуса (Его пока нет)
 
-    private fun showStatusDialog(manModel: ManModel, context: Context){
+    private fun showStatusDialog(manModel: ManModel, context: Context, view: View,){
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Выберите статус")
 
@@ -91,7 +92,7 @@ class MenAdapter(
 
             manModel.status = true
 
-            savePhotoAndShowStatus(manModel.imageData, statusText)
+            manModel.imageData = savePhotoAndShowStatus(manModel.imageData, statusText)
             Thread{
                 MainActivity.db.ManDao.insertMan(manModel)
             }.start()
@@ -101,9 +102,22 @@ class MenAdapter(
         builder.show()
     }
 }
-    private fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String) {
+    public fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String):ByteArray {
 
 
+
+        val b = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+        val bitmap = b.copy((Bitmap.Config.ARGB_8888) , true)
+        val canvas = Canvas(bitmap)
+        val paint = android.graphics.Paint()
+        paint.color = Color.RED
+        paint.textSize = 23f
+        val x = bitmap.width/2f
+        val y = bitmap.height/2f
+        canvas.drawText(statusText, x ,y, paint)
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
         // Здесь вы должны реализовать логику сохранения фото и отображения статуса
         // Например, сохранить фото в базе данных и обновить статус в RecyclerView
         // Также, вы можете использовать onPersonStatusChangeListener.onPersonStatusChange,

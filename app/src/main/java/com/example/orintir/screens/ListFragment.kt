@@ -1,7 +1,11 @@
 package com.example.orintir.screens
 
+import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.provider.BaseColumns
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +19,8 @@ import com.example.orintir.MainActivity
 import com.example.orintir.R
 import com.example.orintir.adapter.MenAdapter
 import com.example.orintir.databinding.FragmentListBinding
+import java.io.IOException
+import java.io.OutputStream
 
 class ListFragment : Fragment(), MenAdapter.OnPersonStatusChangeListener {
 
@@ -66,7 +72,35 @@ class ListFragment : Fragment(), MenAdapter.OnPersonStatusChangeListener {
 
         } else {
             Toast.makeText(requireContext(), "Человек найден", Toast.LENGTH_SHORT).show()
+        }
+        saveImageToGallery(BitmapFactory.decodeByteArray(manModel.imageData, 0, manModel.imageData.size))
+    }
+    private fun saveImageToGallery(bitmap: Bitmap) {
+        val filename = "orintir.jpg"
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.TITLE, filename)
+            put(MediaStore.Images.Media.DESCRIPTION, "Image with text")
+            put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures") // Опционально: указание подпапки
+        }
 
+        val resolver = requireActivity().contentResolver
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        try {
+            if (uri != null) {
+                val stream: OutputStream? = resolver.openOutputStream(uri)
+                stream.use {
+                    if (it != null) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 }
+
+
