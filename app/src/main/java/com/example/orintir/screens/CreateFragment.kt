@@ -178,80 +178,80 @@ class CreateFragment : Fragment() {
         val paint = android.graphics.Paint()
         paint.color = Color.RED
         paint.textSize = 23f
-        val x = 155f
-        val y = 60f
+        val x = 525f
+        val y = 365f
         canvas.drawText(text, x ,y, paint)
 
         //Город
         val paint2 = android.graphics.Paint()
         paint2.color = Color.BLACK
         paint2.textSize = 20f
-        val x2 = 155f
-        val y2 = 90f
-        canvas.drawText("$text2,", x2,  y2, paint2)
+        val x2 = 525f
+        val y2 = 395f
+        canvas.drawText("Г.$text2", x2,  y2, paint2)
 
         // Дата рождения
         val paint3 = android.graphics.Paint()
         paint3.color = Color.BLACK
         paint3.textSize = 20f
-        val x3 = 255f
-        val y3 = 90f
+        val x3 = 525f
+        val y3 = 425f
         canvas.drawText("$text3 г.р.", x3,  y3, paint3)
 
 
         // При каких осбст.
         val paintObs = android.graphics.Paint()
         paintObs.color = Color.RED
-        paintObs.textSize = 15f
-        val xO = 50f
-        val yO = 200f
+        paintObs.textSize = 20f
+        val xO = 525f
+        val yO = 455f
         canvas.drawText("При каких обстоятельствах пропал(а): ", xO,  yO, paintObs)
 
         // Обстоятельства
         val paint4 = android.graphics.Paint()
         paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x4 = 50f
-        val y4 = 215f
+        paint4.textSize = 20f
+        val x4 = 525f
+        val y4 = 485f
         canvas.drawText(text4, x4,  y4, paint4)
 
         //Приметы осн.
         val paintPrim = android.graphics.Paint()
         paintPrim.color = Color.RED
-        paintPrim.textSize = 15f
-        val xP = 50f
-        val yP = 240f
+        paintPrim.textSize = 20f
+        val xP = 525f
+        val yP = 515f
         canvas.drawText("Основные приметы: ", xP, yP, paintPrim)
 
         //Приметы
         val paint5 = android.graphics.Paint()
-        paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x5 = 50f
-        val y5 = 255f
+        paint5.color = Color.BLACK
+        paint5.textSize = 20f
+        val x5 = 525f
+        val y5 = 545f
         canvas.drawText(text5, x5,  y5, paint5)
 
         //Одежда осн.
         val paintCloth = android.graphics.Paint()
         paintCloth.color = Color.RED
-        paintCloth.textSize = 15f
-        val xC = 50f
-        val yC = 280f
+        paintCloth.textSize = 20f
+        val xC = 525f
+        val yC = 575f
         canvas.drawText("Одежда: ", xC, yC, paintCloth)
 
         //Одежда
         val paint6 = android.graphics.Paint()
-        paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x6 = 50f
-        val y6 = 295f
+        paint6.color = Color.BLACK
+        paint6.textSize = 20f
+        val x6 = 525f
+        val y6 = 605f
         canvas.drawText(text6, x6,  y6, paint6)
 
         //Текст
         val paintText = android.graphics.Paint()
         paintText.color = Color.BLACK
         paintText.textSize = 20f
-        val xT = 27f
+        val xT = 0f
         val yT = 350f
         canvas.drawText("Просим сообщить любую информацию по тел: ", xT, yT, paintText)
 
@@ -265,8 +265,8 @@ class CreateFragment : Fragment() {
 
         //Фото
         userSelectedImage?.let {
-            val scaledBitmap = Bitmap.createScaledBitmap(it, 127, 147, false)
-            canvas.drawBitmap(scaledBitmap, 20f, 19f, null)
+            val scaledBitmap = Bitmap.createScaledBitmap(it, 415, 506, false)
+            canvas.drawBitmap(scaledBitmap, 104f, 352f, null)
         }
 
         return bitmap

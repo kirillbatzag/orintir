@@ -43,6 +43,5 @@ class MainActivity : AppCompatActivity() {
         MAIN = this
 
 
-
     }
 }

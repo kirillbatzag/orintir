@@ -26,10 +26,10 @@ class MyViewModel: ViewModel() {
 
         // Фио
         val paint = android.graphics.Paint()
-        paint.color = Color.RED
+        paint.color = Color.YELLOW
         paint.textSize = 23f
-        val x = 155f
-        val y = 60f
+        val x = 150f
+        val y = 600f
         canvas.drawText(text, x ,y, paint)
 
         //Город
