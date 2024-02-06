@@ -247,21 +247,6 @@ class CreateFragment : Fragment() {
         val y6 = 605f
         canvas.drawText(text6, x6,  y6, paint6)
 
-        //Текст
-        val paintText = android.graphics.Paint()
-        paintText.color = Color.BLACK
-        paintText.textSize = 20f
-        val xT = 0f
-        val yT = 350f
-        canvas.drawText("Просим сообщить любую информацию по тел: ", xT, yT, paintText)
-
-        //Номера
-        val paintNumber = android.graphics.Paint()
-        paintNumber.color = Color.BLACK
-        paintNumber.textSize = 20f
-        val xN = 130f
-        val yN = 375f
-        canvas.drawText("8(924)991-11-62 или 112", xN, yN, paintNumber)
 
         //Фото
         userSelectedImage?.let {
