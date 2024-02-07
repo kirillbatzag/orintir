@@ -61,6 +61,16 @@ class CreateFragment : Fragment() {
             openGallery()
         }
 
+        // Кнопка для автоматического ввода данных
+        binding.buttonTest.setOnClickListener(){
+            binding.editTextText.setText("Иванов Иван Иванович")
+            binding.editTextText2.setText("Санкт-Петербург")
+            binding.editTextDate.setText("1980")
+            binding.editTextText5.setText("Он выпил алкоголя и отправился в лес за грибами, к тому же еще шёл дождь")
+            binding.editTextText6.setText("Седой, но не совсем. Высокий, но не очень. Очень много ворчит и может пахнуть перегаром, есть шрам на лице")
+            binding.editTextText7.setText("Старый пуховик, шапка ушанка, сапоги, портфель жёлтый, варешки, очки.")
+        }
+
     }
 
     //процедура создает запись в бд
@@ -176,7 +186,7 @@ class CreateFragment : Fragment() {
         view.draw(canvas)
 
         // Определяем максимальное количество символов в каждой строке
-        val maxCharsPerLine = 28
+        val maxCharsPerLine = 42
 
         // Фио
         val paint = Paint().apply {
@@ -208,7 +218,7 @@ class CreateFragment : Fragment() {
             color = Color.RED
             textSize = 20f
         }
-        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 70f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, "При каких обстоятельствах пропал(а): ", paintObs, x, y, maxCharsPerLine)
 
         // Обстоятельства
@@ -216,7 +226,7 @@ class CreateFragment : Fragment() {
             color = Color.BLACK
             textSize = 20f
         }
-        y += 40f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 20f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, text4, paint4, x, y, maxCharsPerLine)
 
         // Приметы основные
@@ -224,7 +234,7 @@ class CreateFragment : Fragment() {
             color = Color.RED
             textSize = 20f
         }
-        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 90f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, "Основные приметы: ", paintPrim, x, y, maxCharsPerLine)
 
         // Приметы
@@ -232,7 +242,7 @@ class CreateFragment : Fragment() {
             color = Color.BLACK
             textSize = 20f
         }
-        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 20f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, text5, paint5, x, y, maxCharsPerLine)
 
         // Одежда основная
@@ -240,7 +250,7 @@ class CreateFragment : Fragment() {
             color = Color.RED
             textSize = 20f
         }
-        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 100f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, "Одежда: ", paintCloth, x, y, maxCharsPerLine)
 
         // Одежда
@@ -248,7 +258,7 @@ class CreateFragment : Fragment() {
             color = Color.BLACK
             textSize = 20f
         }
-        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        y += 20f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
         drawText(canvas, text6, paint6, x, y, maxCharsPerLine)
 
         // Фото
@@ -265,15 +275,22 @@ class CreateFragment : Fragment() {
         var currentY = y
         while (remainingText.isNotEmpty()) {
             val charsToDraw = if (remainingText.length > maxCharsPerLine) {
-                remainingText.substring(0, maxCharsPerLine)
+                val cutoff = remainingText.lastIndexOf(' ', maxCharsPerLine)
+                if (cutoff != -1) {
+                    remainingText.substring(0, cutoff)
+                } else {
+                    remainingText.substring(0, maxCharsPerLine)
+                }
             } else {
                 remainingText
             }
             canvas.drawText(charsToDraw, x, currentY, paint)
-            remainingText = remainingText.substring(charsToDraw.length)
+            remainingText = remainingText.substring(charsToDraw.length).trimStart()
             currentY += paint.textSize
         }
     }
+
+
 
 
 

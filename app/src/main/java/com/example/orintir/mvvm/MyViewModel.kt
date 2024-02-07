@@ -3,6 +3,7 @@ package com.example.orintir.mvvm
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.view.View
 import androidx.lifecycle.ViewModel
 
@@ -10,7 +11,8 @@ class MyViewModel: ViewModel() {
 
 
     //Рисовка
-    fun createBitmapFromView(
+    //Рисовка
+    private fun createBitmapFromView(
         view: View,
         text: String,
         text2: String,
@@ -24,100 +26,103 @@ class MyViewModel: ViewModel() {
         val canvas = Canvas(bitmap)
         view.draw(canvas)
 
-        // Фио
-        val paint = android.graphics.Paint()
-        paint.color = Color.YELLOW
-        paint.textSize = 23f
-        val x = 150f
-        val y = 600f
-        canvas.drawText(text, x ,y, paint)
+        // Определяем максимальное количество символов в каждой строке
+        val maxCharsPerLine = 28
 
-        //Город
-        val paint2 = android.graphics.Paint()
-        paint2.color = Color.BLACK
-        paint2.textSize = 20f
-        val x2 = 155f
-        val y2 = 90f
-        canvas.drawText("$text2,", x2,  y2, paint2)
+        // Фио
+        val paint = Paint().apply {
+            color = Color.RED
+            textSize = 23f
+        }
+        val x = 525f
+        var y = 365f
+        drawText(canvas, text, paint, x, y, maxCharsPerLine)
+
+        // Город
+        val paint2 = Paint().apply {
+            color = Color.BLACK
+            textSize = 20f
+        }
+        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, "Г.$text2", paint2, x, y, maxCharsPerLine)
 
         // Дата рождения
-        val paint3 = android.graphics.Paint()
-        paint3.color = Color.BLACK
-        paint3.textSize = 20f
-        val x3 = 255f
-        val y3 = 90f
-        canvas.drawText("$text3 г.р.", x3,  y3, paint3)
+        val paint3 = Paint().apply {
+            color = Color.BLACK
+            textSize = 20f
+        }
+        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, "$text3 г.р.", paint3, x, y, maxCharsPerLine)
 
-        // При каких осбст.
-        val paintObs = android.graphics.Paint()
-        paintObs.color = Color.RED
-        paintObs.textSize = 15f
-        val xO = 50f
-        val yO = 200f
-        canvas.drawText("При каких обстоятельствах пропал(а): ", xO,  yO, paintObs)
+        // При каких обстоятельствах
+        val paintObs = Paint().apply {
+            color = Color.RED
+            textSize = 20f
+        }
+        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, "При каких обстоятельствах пропал(а): ", paintObs, x, y, maxCharsPerLine)
 
         // Обстоятельства
-        val paint4 = android.graphics.Paint()
-        paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x4 = 50f
-        val y4 = 215f
-        canvas.drawText(text4, x4,  y4, paint4)
+        val paint4 = Paint().apply {
+            color = Color.BLACK
+            textSize = 20f
+        }
+        y += 40f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, text4, paint4, x, y, maxCharsPerLine)
 
-        //Приметы осн.
-        val paintPrim = android.graphics.Paint()
-        paintPrim.color = Color.RED
-        paintPrim.textSize = 15f
-        val xP = 50f
-        val yP = 240f
-        canvas.drawText("Основные приметы: ", xP, yP, paintPrim)
+        // Приметы основные
+        val paintPrim = Paint().apply {
+            color = Color.RED
+            textSize = 20f
+        }
+        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, "Основные приметы: ", paintPrim, x, y, maxCharsPerLine)
 
-        //Приметы
-        val paint5 = android.graphics.Paint()
-        paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x5 = 50f
-        val y5 = 255f
-        canvas.drawText(text5, x5,  y5, paint5)
+        // Приметы
+        val paint5 = Paint().apply {
+            color = Color.BLACK
+            textSize = 20f
+        }
+        y += 40f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, text5, paint5, x, y, maxCharsPerLine)
 
-        //Одежда осн.
-        val paintCloth = android.graphics.Paint()
-        paintCloth.color = Color.RED
-        paintCloth.textSize = 15f
-        val xC = 50f
-        val yC = 280f
-        canvas.drawText("Одежда: ", xC, yC, paintCloth)
+        // Одежда основная
+        val paintCloth = Paint().apply {
+            color = Color.RED
+            textSize = 20f
+        }
+        y += 30f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, "Одежда: ", paintCloth, x, y, maxCharsPerLine)
 
-        //Одежда
-        val paint6 = android.graphics.Paint()
-        paint4.color = Color.BLACK
-        paint4.textSize = 10f
-        val x6 = 50f
-        val y6 = 295f
-        canvas.drawText(text6, x6,  y6, paint6)
+        // Одежда
+        val paint6 = Paint().apply {
+            color = Color.BLACK
+            textSize = 20f
+        }
+        y += 40f // Увеличиваем y на высоту предыдущей строки плюс некоторый отступ
+        drawText(canvas, text6, paint6, x, y, maxCharsPerLine)
 
-        //Текст
-        val paintText = android.graphics.Paint()
-        paintText.color = Color.BLACK
-        paintText.textSize = 20f
-        val xT = 27f
-        val yT = 350f
-        canvas.drawText("Просим сообщить любую информацию по тел: ", xT, yT, paintText)
-
-        //Номера
-        val paintNumber = android.graphics.Paint()
-        paintNumber.color = Color.BLACK
-        paintNumber.textSize = 20f
-        val xN = 130f
-        val yN = 375f
-        canvas.drawText("8(924)991-11-62 или 112", xN, yN, paintNumber)
-
-        //Фото
+        // Фото
         userSelectedImage?.let {
-            val scaledBitmap = Bitmap.createScaledBitmap(it, 127, 147, false)
-            canvas.drawBitmap(scaledBitmap, 20f, 19f, null)
+            val scaledBitmap = Bitmap.createScaledBitmap(it, 415, 506, false)
+            canvas.drawBitmap(scaledBitmap, 104f, 352f, null)
         }
 
         return bitmap
+    }
+
+    private fun drawText(canvas: Canvas, text: String, paint: Paint, x: Float, y: Float, maxCharsPerLine: Int) {
+        var remainingText = text
+        var currentY = y
+        while (remainingText.isNotEmpty()) {
+            val charsToDraw = if (remainingText.length > maxCharsPerLine) {
+                remainingText.substring(0, maxCharsPerLine)
+            } else {
+                remainingText
+            }
+            canvas.drawText(charsToDraw, x, currentY, paint)
+            remainingText = remainingText.substring(charsToDraw.length)
+            currentY += paint.textSize
+        }
     }
 }
