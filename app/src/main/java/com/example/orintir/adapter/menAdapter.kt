@@ -1,11 +1,16 @@
 package com.example.orintir.adapter
 
+import android.R.attr.height
+import android.R.attr.width
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +21,7 @@ import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
 import java.io.ByteArrayOutputStream
+
 
 class MenAdapter(
     private var dataList: List<ManModel>,
@@ -73,9 +79,9 @@ class MenAdapter(
         notifyDataSetChanged()
     }
 
-    // Обновление статуса (Его пока нет)
 
-    private fun showStatusDialog(manModel: ManModel, context: Context, view: View,){
+
+    private fun showStatusDialog(manModel: ManModel, context: Context, view: View){
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Выберите статус")
 
@@ -117,6 +123,8 @@ class MenAdapter(
         canvas.drawText(statusText, x ,y, paint)
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+
+
         return stream.toByteArray()
         // Здесь вы должны реализовать логику сохранения фото и отображения статуса
         // Например, сохранить фото в базе данных и обновить статус в RecyclerView
