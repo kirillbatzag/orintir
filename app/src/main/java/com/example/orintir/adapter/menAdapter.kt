@@ -113,7 +113,7 @@ class MenAdapter(
 
 
         val b = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-        val bitmap = b.copy((Bitmap.Config.ARGB_8888) , true)
+        var bitmap = b.copy((Bitmap.Config.ARGB_8888) , true)
         val canvas = Canvas(bitmap)
         val paint = android.graphics.Paint()
         paint.color = Color.RED
@@ -122,12 +122,28 @@ class MenAdapter(
         val y = bitmap.height/2f
         canvas.drawText(statusText, x ,y, paint)
         val stream = ByteArrayOutputStream()
+        bitmap = subColor(bitmap)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
 
-
         return stream.toByteArray()
-        // Здесь вы должны реализовать логику сохранения фото и отображения статуса
-        // Например, сохранить фото в базе данных и обновить статус в RecyclerView
-        // Также, вы можете использовать onPersonStatusChangeListener.onPersonStatusChange,
-        // чтобы уведомить остальные части кода о изменении статуса.
     }
+
+fun subColor(src:Bitmap): Bitmap? {
+    val output = Bitmap.createScaledBitmap(src, src.width,src.height, true )
+    for (x in 0 until output.width) for (y in 0 until output.height) {
+        val pixel = output.getPixel(x, y)
+
+        val r: Int = pixel shr 16 and 0xff
+        val g: Int = pixel shr 8 and 0xff
+        val b: Int = pixel shr 0 and 0xff
+        val Y = 0.2126*r + 0.7152*g + 0.0722*b
+
+        if (Y < 128) {
+            output.setPixel(x, y, Color.BLACK)
+        }else{
+            output.setPixel(x, y, Color.WHITE)
+        }
+
+    }
+    return output
+}
