@@ -11,6 +11,10 @@ import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +25,7 @@ import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
 import java.io.ByteArrayOutputStream
+
 
 
 class MenAdapter(
@@ -107,22 +112,24 @@ class MenAdapter(
 
         builder.show()
     }
+
 }
-    public fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String):ByteArray {
-
-
+    fun savePhotoAndShowStatus(imageData: ByteArray, statusText: String):ByteArray {
 
         val b = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
         var bitmap = b.copy((Bitmap.Config.ARGB_8888) , true)
+        bitmap = subColor(bitmap)
         val canvas = Canvas(bitmap)
         val paint = android.graphics.Paint()
+
+        // текст найден
         paint.color = Color.RED
-        paint.textSize = 23f
-        val x = bitmap.width/2f
-        val y = bitmap.height/2f
+        paint.textSize = 40f
+        val x = 400f
+        val y = 900f
         canvas.drawText(statusText, x ,y, paint)
+
         val stream = ByteArrayOutputStream()
-        bitmap = subColor(bitmap)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
 
         return stream.toByteArray()
@@ -147,3 +154,6 @@ fun subColor(src:Bitmap): Bitmap? {
     }
     return output
 }
+
+// функция размытия
+

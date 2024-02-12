@@ -16,12 +16,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.orintir.Database.ManDao
 import com.example.orintir.Database.ManDatabase
 import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
 import com.example.orintir.databinding.FragmentCreateBinding
+import com.example.orintir.mvvm.MyViewModel
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -35,6 +38,7 @@ class CreateFragment : Fragment() {
     lateinit var binding: FragmentCreateBinding
     lateinit var imageView: ImageView
     lateinit var selectedImageView: ImageView
+    lateinit var vm: MyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,8 @@ class CreateFragment : Fragment() {
     ): View? {
         binding = FragmentCreateBinding.inflate(layoutInflater, container, false)
         return (binding.root)
+
+        vm = ViewModelProvider(this).get(MyViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,10 +61,13 @@ class CreateFragment : Fragment() {
 
             Toast.makeText(getActivity(), "Изображение сохранени", Toast.LENGTH_SHORT).show()
             abbDB()
+
+
         }
 
         selectImageButton.setOnClickListener{
             openGallery()
+
         }
 
         // Кнопка для автоматического ввода данных
@@ -289,10 +298,6 @@ class CreateFragment : Fragment() {
             currentY += paint.textSize
         }
     }
-
-
-
-
 
     //Сохранения изображения
     private fun saveImageToGallery(bitmap: Bitmap) {
