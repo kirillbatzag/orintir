@@ -24,6 +24,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.orintir.Database.ManModel
 import com.example.orintir.MainActivity
 import com.example.orintir.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 
@@ -86,11 +90,11 @@ class MenAdapter(
 
 
 
-    private fun showStatusDialog(manModel: ManModel, context: Context, view: View){
+    private fun showStatusDialog(manModel: ManModel, context: Context, view: View) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Выберите статус")
 
-        val options = arrayOf("Найден жив","Найден мертв")
+        val options = arrayOf("Найден жив", "Найден мертв")
 
         builder.setItems(options) { _, which ->
             val isFound = which == 0
@@ -98,16 +102,18 @@ class MenAdapter(
             val statusText = if (isFound) {
                 "Найден жив"
             } else {
-                "Найден мертв"
+                "Найден погиб"
             }
 
-            manModel.status = true
-
-            manModel.imageData = savePhotoAndShowStatus(manModel.imageData, statusText)
-            Thread{
-                MainActivity.db.ManDao.insertMan(manModel)
-            }.start()
-            onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
+            CoroutineScope(Dispatchers.IO).launch {
+                val processedImageData = savePhotoAndShowStatus(manModel.imageData, statusText)
+                withContext(Dispatchers.Main) {
+                    manModel.status = true
+                    manModel.imageData = processedImageData
+                    notifyDataSetChanged()
+                    onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
+                }
+            }
         }
 
         builder.show()
@@ -155,5 +161,4 @@ fun subColor(src:Bitmap): Bitmap? {
     return output
 }
 
-// функция размытия
 
