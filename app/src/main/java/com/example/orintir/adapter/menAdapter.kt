@@ -112,6 +112,9 @@ class MenAdapter(
                     manModel.imageData = processedImageData
                     notifyDataSetChanged()
                     onPersonStatusChangeListener.onPersonStatusChange(manModel, isFound)
+                    Thread{
+                        MainActivity.db.ManDao.insertMan(manModel)
+                    }.start()
                 }
             }
         }
