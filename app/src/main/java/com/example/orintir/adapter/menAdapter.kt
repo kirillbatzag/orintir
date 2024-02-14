@@ -127,7 +127,7 @@ class MenAdapter(
 
         val b = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
         var bitmap = b.copy((Bitmap.Config.ARGB_8888) , true)
-        bitmap = subColor(bitmap)
+        bitmap = applyContrastAndGrayscale(bitmap)
         val canvas = Canvas(bitmap)
         val paint = android.graphics.Paint()
 
@@ -144,24 +144,47 @@ class MenAdapter(
         return stream.toByteArray()
     }
 
-fun subColor(src:Bitmap): Bitmap? {
-    val output = Bitmap.createScaledBitmap(src, src.width,src.height, true )
-    for (x in 0 until output.width) for (y in 0 until output.height) {
-        val pixel = output.getPixel(x, y)
 
-        val r: Int = pixel shr 16 and 0xff
-        val g: Int = pixel shr 8 and 0xff
-        val b: Int = pixel shr 0 and 0xff
-        val Y = 0.2126*r + 0.7152*g + 0.0722*b
+    // Контраст
+    fun applyContrastAndGrayscale(src: Bitmap): Bitmap {
+        val width = src.width
+        val height = src.height
+        val bmOut = Bitmap.createBitmap(width, height, src.config)
 
-        if (Y < 128) {
-            output.setPixel(x, y, Color.BLACK)
-        }else{
-            output.setPixel(x, y, Color.WHITE)
+        val pixels = IntArray(width * height)
+        src.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        val contrastFactor = 1.5f // Попробуйте разные значения для контраста
+        val intercept = 128 * (1 - contrastFactor)
+
+        for (i in pixels.indices) {
+            val color = pixels[i]
+            val r = Color.red(color)
+            val g = Color.green(color)
+            val b = Color.blue(color)
+
+            val red = applyContrast(r, contrastFactor, intercept)
+            val green = applyContrast(g, contrastFactor, intercept)
+            val blue = applyContrast(b, contrastFactor, intercept)
+
+            val gray = (0.299 * red + 0.587 * green + 0.114 * blue).toInt()
+            pixels[i] = Color.rgb(gray, gray, gray)
         }
 
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height)
+
+        return bmOut
     }
-    return output
-}
+
+
+    private fun applyContrast(colorComponent: Int, contrastFactor: Float, intercept: Float): Int {
+        var color = (colorComponent * contrastFactor + intercept).toInt()
+        if (color < 0) {
+            color = 0
+        } else if (color > 255) {
+            color = 255
+        }
+        return color
+    }
 
 
