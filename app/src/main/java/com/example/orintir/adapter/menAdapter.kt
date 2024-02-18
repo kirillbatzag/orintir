@@ -133,9 +133,9 @@ class MenAdapter(
 
         // текст найден
         paint.color = Color.RED
-        paint.textSize = 40f
-        val x = 400f
-        val y = 900f
+        paint.textSize = 80f
+        val x = 270f
+        val y = 950f
         canvas.drawText(statusText, x ,y, paint)
 
         val stream = ByteArrayOutputStream()
